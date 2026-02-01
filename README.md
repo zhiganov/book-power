@@ -10,11 +10,17 @@ Turn books (with appropriate copyright) into conversational avatars, slash comma
 
 ## Output formats
 
-| Format | Description | Use case |
-|--------|-------------|----------|
-| `avatar` | avatar-sdk compatible config.json + sources.json | Knowledge avatars for group discussions |
-| `command` | Publishable Claude Code slash command | Interactive audits, assessments, consultations |
-| `mcp` | Standalone MCP server project | Tool-based access from any MCP client |
+### `command` — Slash command
+
+Generates a publishable [Claude Code](https://docs.anthropic.com/en/docs/claude-code) slash command repo (like [claude-audit-oss](https://github.com/zhiganov/claude-audit-oss)). The command `.md` file instructs Claude Code directly — no API key or runtime needed. Includes install scripts, reference data, and README. Best for interactive audits, assessments, and consultations.
+
+### `mcp` — MCP server
+
+Generates a standalone [Model Context Protocol](https://modelcontextprotocol.io/) server project. Book content is embedded as TypeScript constants with tools for searching, browsing chapters, and retrieving principles/frameworks. Uses simple string matching (no vector DB) — the server is self-contained and works with any MCP client. Built on `@modelcontextprotocol/sdk` with stdio transport.
+
+### `avatar` — Knowledge avatar
+
+Generates config compatible with [avatar-sdk](https://github.com/harmonicabot/avatar-sdk) (Conversational Avatar Protocol). This is the most involved output: produces `config.json` (persona, systemPrompt, vectorStore settings) and `corpus/sources.json` (source metadata). Unlike the other formats, avatars require a vector search pipeline — after generation you need to run the avatar-sdk processor to download sources, chunk text, generate embeddings (OpenAI), and store them in Supabase pgvector. The avatar then participates in group conversations via MCP with retrieval-augmented responses grounded in the source material.
 
 ## Usage
 
