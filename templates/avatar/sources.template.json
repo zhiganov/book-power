@@ -1,0 +1,6 @@
+{
+  "avatar": "{{AVATAR_ID}}",
+  "corpus_description": "{{CORPUS_DESCRIPTION}}",
+  "last_updated": "{{LAST_UPDATED}}",
+  "sources": []
+}

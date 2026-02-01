@@ -1,0 +1,31 @@
+{
+  "id": "{{AVATAR_ID}}",
+  "name": "{{AVATAR_NAME}}",
+  "description": "{{AVATAR_DESCRIPTION}}",
+  "expertise": [],
+  "corpus": {
+    "description": "{{CORPUS_DESCRIPTION}}",
+    "sources": [
+      {
+        "title": "{{BOOK_TITLE}}",
+        "type": "book",
+        "year": null,
+        "url": "{{BOOK_URL}}",
+        "verified": false
+      }
+    ]
+  },
+  "systemPrompt": {
+    "identity": "{{SYSTEM_IDENTITY}}",
+    "tone": "{{SYSTEM_TONE}}",
+    "constraints": [],
+    "citationStyle": "{{CITATION_STYLE}}"
+  },
+  "vectorStore": {
+    "table": "avatar_chunks",
+    "embeddingModel": "text-embedding-3-small",
+    "embeddingDimensions": 1536,
+    "chunkSize": 512,
+    "chunkOverlap": 50
+  }
+}

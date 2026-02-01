@@ -1,0 +1,31 @@
+{
+  "name": "book-power",
+  "version": "0.1.0",
+  "description": "Turn books into conversational avatars, slash commands, or MCP servers",
+  "type": "module",
+  "bin": {
+    "book-power": "./dist/cli.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsx src/cli.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "cheerio": "^1.0.0",
+    "pdf-parse": "^1.1.1",
+    "gpt-tokenizer": "^2.8.1",
+    "@anthropic-ai/sdk": "^0.30.0"
+  },
+  "devDependencies": {
+    "tsx": "^4.19.0",
+    "typescript": "^5.3.0",
+    "@types/node": "^22.0.0"
+  },
+  "license": "MIT",
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/zhiganov/book-power.git"
+  }
+}
