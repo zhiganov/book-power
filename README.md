@@ -1,4 +1,4 @@
-# book-power
+# Book Power
 
 Turn books (with appropriate copyright) into conversational avatars, slash commands, or MCP servers.
 
