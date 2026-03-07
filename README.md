@@ -1,48 +1,68 @@
 # Book Power
 
-Turn books (with appropriate copyright) into conversational avatars, slash commands, or MCP servers.
+Turn books into interactive tools — MCP servers, conversation templates, slash commands, or knowledge avatars.
 
-## How it works
+## The idea
 
-1. **Ingest** — Fetches and extracts book content from URLs, files, or directories (HTML, PDF, plain text)
-2. **Analyze** — Uses Claude to extract principles, frameworks, expertise areas, and tone
-3. **Generate** — Produces one of three output formats
+Methodology books are full of frameworks, workflows, and interview techniques — but applying them in practice is hard. Book Power bridges that gap: extract a book's methodology and turn it into tools you can actually use while doing the work.
 
-## Output formats
+## What it does today
 
-### `command` — Slash command
+### CLI pipeline
 
-Generates a publishable [Claude Code](https://docs.anthropic.com/en/docs/claude-code) slash command repo (like [claude-audit-oss](https://github.com/zhiganov/claude-audit-oss)). The command `.md` file instructs Claude Code directly — no API key or runtime needed. Includes install scripts, reference data, and README. Best for interactive audits, assessments, and consultations.
-
-### `mcp` — MCP server
-
-Generates a standalone [Model Context Protocol](https://modelcontextprotocol.io/) server project. Book content is embedded as TypeScript constants with tools for searching, browsing chapters, and retrieving principles/frameworks. Uses simple string matching (no vector DB) — the server is self-contained and works with any MCP client. Built on `@modelcontextprotocol/sdk` with stdio transport.
-
-### `avatar` — Knowledge avatar
-
-Generates config compatible with [avatar-sdk](https://github.com/harmonicabot/avatar-sdk) (Conversational Avatar Protocol). This is the most involved output: produces `config.json` (persona, systemPrompt, vectorStore settings) and `corpus/sources.json` (source metadata). Unlike the other formats, avatars require a vector search pipeline — after generation you need to run the avatar-sdk processor to download sources, chunk text, generate embeddings (OpenAI), and store them in Supabase pgvector. The avatar then participates in group conversations via MCP with retrieval-augmented responses grounded in the source material.
-
-## Usage
-
-### CLI
-
-```bash
-# Requires ANTHROPIC_API_KEY
-book-power process <source> --output avatar|command|mcp
-
-# Examples
-book-power process https://producingoss.com/en/producingoss.html --output command
-book-power process ./my-book.pdf --output avatar
-book-power process ./book-chapters/ --output mcp
+```
+Book (URL / PDF / TXT) → Extract → Analyze → Generate
 ```
 
-### Slash command
+1. **Ingest** — Extracts content from URLs, files, or directories (HTML, PDF, plain text)
+2. **Analyze** — Uses Claude to extract principles, frameworks, expertise areas, and tone
+3. **Generate** — Produces one of three output formats:
+   - **`mcp`** — MCP server with embedded book content and tools for search, reference, guided analysis
+   - **`command`** — Claude Code slash command for interactive audits and assessments
+   - **`avatar`** — Knowledge avatar config for [avatar-sdk](https://github.com/harmonicabot/avatar-sdk) group discussions
+
+### Interactive mode
 
 ```
 /book-power
 ```
 
-Interactive flow in Claude Code — no API key needed (Claude Code handles the analysis).
+Claude Code slash command — no API key needed (Claude Code handles analysis).
+
+## Built with book-power
+
+| Project | Format | Source | Status |
+|---------|--------|--------|--------|
+| **[claude-audit-oss](https://github.com/zhiganov/claude-audit-oss)** | Slash command | [Producing Open Source Software](https://producingoss.com/) by Karl Fogel (CC BY-SA 4.0) | Published |
+| **jtbd-knowledge** | MCP server | Bob Moesta's "Demand-Side Sales 101" + Jim Kalbach's "The JTBD Playbook" | Private |
+
+### jtbd-knowledge MCP server
+
+The first hand-crafted MCP server — goes beyond the generic generator with purpose-built tools for applying JTBD methodology in practice.
+
+**13 tools in 3 groups:**
+
+- **Reference (6):** `search_content`, `get_framework`, `get_workflow`, `get_recipe`, `get_interview_questions`, `list_all`
+- **Guided analysis (4):** `get_analysis_template`, `get_output_format`, `format_action_items`, `suggest_next_step`
+- **Navigation (3):** `get_technique`, `compare_books`, `get_quote`
+
+**Content:** 23 frameworks, 17 workflows, 5 recipes, 40 interview questions, 12 interview techniques, 13 templates, 6 analysis templates, 39 concepts, 28 quotes — from two books combined.
+
+**Key innovation:** `suggest_next_step` — a recipe-based workflow navigator. Given where you are in the JTBD process and your goal, it recommends which framework to apply next, based on Kalbach's 5 recipes (Launch New Product, Optimize Existing, Increase Demand, Customer Success, Innovation Strategy).
+
+**Architecture:** Hybrid approach — structured reference data + analysis templates that Claude fills in from real data (transcripts, surveys). No LLM calls in the server. The server provides methodology scaffolding; Claude in conversation does the analytical work.
+
+## Usage
+
+```bash
+# CLI (requires ANTHROPIC_API_KEY)
+book-power process <source> --output mcp|command|avatar
+
+# Examples
+book-power process https://producingoss.com/en/producingoss.html --output command
+book-power process ./my-book.pdf --output mcp
+book-power process ./book-chapters/ --output avatar
+```
 
 ## Installation
 
@@ -63,9 +83,24 @@ curl -fsSL https://raw.githubusercontent.com/zhiganov/book-power/main/slash-comm
 irm https://raw.githubusercontent.com/zhiganov/book-power/main/slash-command/install.ps1 | iex
 ```
 
-## First test case
+## Vision
 
-[Producing Open Source Software](https://producingoss.com/) by Karl Fogel (CC BY-SA 4.0)
+### Book → facilitated sessions
+
+The biggest opportunity: translate any methodology book into structured facilitation sessions on [Harmonica](https://harmonica.chat). A consultant uploads a change management book → gets a ready-to-use workshop template chain. JTBD interview → Four Forces analysis → ODI scoring → strategy session — all as guided, AI-facilitated conversations.
+
+### For publishers
+
+Authors and publishers could offer interactive companion tools alongside their books — "buy the book, get the tools." MCP servers for AI-assisted methodology application, or Harmonica session templates for facilitated workshops.
+
+### For facilitators and consultants
+
+Upload any methodology book you own and generate custom session templates. The platform provides transformation infrastructure, you supply your licensed content. IP responsibility stays with you (same model as YouTube/Dropbox).
+
+### Planned MCP servers
+
+- **Producing OSS** — Rebuild audit-oss as MCP server with learnings from jtbd-knowledge
+- **Governable Spaces** — Nathan Schneider's book on governance, for gov/acc research collaboration with Metagov
 
 ## License
 

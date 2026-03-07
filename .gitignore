@@ -2,3 +2,7 @@ node_modules/
 dist/
 .env
 *.tgz
+
+# Private: copyrighted book files and generated MCP servers with embedded content
+books/
+book-power-output/
