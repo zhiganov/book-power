@@ -19,7 +19,7 @@ Book (URL / PDF / TXT) → Extract → Analyze → Generate
 3. **Generate** — Produces one of three output formats:
    - **`mcp`** — MCP server with embedded book content and tools for search, reference, guided analysis
    - **`command`** — Claude Code slash command for interactive audits and assessments
-   - **`avatar`** — Knowledge avatar config for [avatar-sdk](https://github.com/harmonicabot/avatar-sdk) group discussions
+   - **`avatar`** — Knowledge avatar config for [avatar-sdk](https://github.com/harmonicabot/avatar-sdk) (infuse book wisdom into group discussions)
 
 ### Interactive mode
 
