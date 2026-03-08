@@ -1,6 +1,6 @@
 // --- Input Types ---
 
-export type SourceFormat = 'html' | 'pdf' | 'text' | 'epub';
+export type SourceFormat = 'html' | 'pdf' | 'text' | 'epub' | 'docx' | 'pptx';
 export type SourceLocation = 'url' | 'file' | 'directory';
 
 export interface BookSource {

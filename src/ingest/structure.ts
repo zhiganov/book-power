@@ -2,6 +2,7 @@ import { readdirSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import type { BookSource, BookContent, Chapter } from '../types.js';
 import { extractHtml } from './extract-html.js';
+import { extractKreuzberg } from './extract-kreuzberg.js';
 import { extractPdf } from './extract-pdf.js';
 import { extractText } from './extract-text.js';
 import { fetchUrl } from './fetch.js';
@@ -29,15 +30,18 @@ export async function extractBookContent(source: BookSource): Promise<BookConten
       break;
     }
     case 'pdf': {
-      ({ chapters, title, author } = await extractPdf(source.localPaths[0]));
+      ({ chapters, title, author } = await extractKreuzberg(source.localPaths[0]));
       break;
     }
     case 'text': {
       ({ chapters, title, author } = await extractText(source.localPaths[0]));
       break;
     }
-    case 'epub': {
-      throw new Error('EPUB extraction is not yet supported. Convert to HTML or PDF first.');
+    case 'epub':
+    case 'docx':
+    case 'pptx': {
+      ({ chapters, title, author } = await extractKreuzberg(source.localPaths[0]));
+      break;
     }
     default:
       throw new Error(`Unsupported format: ${source.format}`);

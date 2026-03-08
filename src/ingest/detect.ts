@@ -9,6 +9,8 @@ const FORMAT_BY_EXT: Record<string, SourceFormat> = {
   '.txt': 'text',
   '.md': 'text',
   '.epub': 'epub',
+  '.docx': 'docx',
+  '.pptx': 'pptx',
 };
 
 const FORMAT_BY_CONTENT_TYPE: Record<string, SourceFormat> = {
@@ -17,6 +19,8 @@ const FORMAT_BY_CONTENT_TYPE: Record<string, SourceFormat> = {
   'application/pdf': 'pdf',
   'text/plain': 'text',
   'application/epub+zip': 'epub',
+  'application/vnd.openxmlformats-officedocument.wordprocessingml.document': 'docx',
+  'application/vnd.openxmlformats-officedocument.presentationml.presentation': 'pptx',
 };
 
 function isUrl(input: string): boolean {
