@@ -15,7 +15,7 @@ npm run build          # Compile TypeScript
 npm run typecheck      # Type-check without emitting
 
 # CLI (requires ANTHROPIC_API_KEY)
-npx tsx src/cli.ts process <source> --output avatar|command|mcp [--output-dir <dir>] [--skip-copyright]
+npx tsx src/cli.ts process <source> --output avatar|command|mcp [--output-dir <dir>] [--skip-copyright] [--datalab]
 
 # Interactive (no API key needed)
 # /book-power slash command in Claude Code
@@ -47,10 +47,9 @@ All types in `src/types.ts`. The pipeline is orchestrated by `src/cli.ts` (batch
 `structure.ts` routes by format to the appropriate extractor:
 
 - **HTML** (`extract-html.ts`): Detects multi-page books by scanning for TOC links (tries `.toc a`, `nav a`, etc. — stops after ≥3 links found). Multi-page fetches chapters in batches of 5. Single-page splits by h1/h2 headings. Strips nav/header/footer/scripts before extraction.
-- **PDF** (`extract-pdf.ts`): Uses `pdf-parse`, splits by chapter heading heuristics (lines matching `/^chapter\s+\d+/i` or ALL CAPS).
-- **PDF via Datalab API** (`books/` pre-conversion): For higher-quality PDF extraction, use Datalab API to convert PDF → markdown before ingestion. Already converted: `continuous-discovery-habits.md`. The markdown file can then be processed by `extract-text.ts` (markdown-aware heading detection). Datalab API details in MEMORY.md "Tools in the Workspace".
+- **PDF/EPUB/DOCX/PPTX** (`extract-kreuzberg.ts`): Default extractor using Kreuzberg (`@kreuzberg/node`, MIT, Rust core). Uses `extractFileSync` with auto MIME detection. Splits by markdown headings (if present in output) or chapter heading heuristics. Supports 75+ formats.
+- **PDF via Datalab API** (`extract-datalab.ts`): Opt-in high-quality extraction via `--datalab` CLI flag. Requires `DATALAB_API_KEY` env var. Best for complex PDFs with tables/formulas. Converts to markdown, then routes through text extractor for chapter splitting.
 - **Text** (`extract-text.ts`): Markdown-aware (`#` headings) or plain text heuristics.
-- **EPUB**: Not yet supported (throws).
 
 ### Analysis stage
 
@@ -91,7 +90,9 @@ The generic `mcp-server.ts` generator produces basic 5-tool servers. For special
 - `2026-03-07-jtbd-mcp-server-design.md` — Design doc for jtbd-knowledge (approach selection, tool design, data model)
 - `2026-03-07-jtbd-mcp-server-impl.md` — Implementation plan (11 tasks, TDD)
 - `2026-03-07-commercialization-notes.md` — Early commercialization thinking (open-core, revenue angles, publisher partnerships)
+- `2026-03-08-document-extraction-upgrade.md` — Kreuzberg integration plan (replaces pdf-parse, adds EPUB/DOCX support)
 
 ## Environment Variables
 
 - `ANTHROPIC_API_KEY` — required for CLI analysis step (not needed for slash command)
+- `DATALAB_API_KEY` — optional, for high-quality PDF extraction via `--datalab` flag
