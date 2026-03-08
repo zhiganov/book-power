@@ -24,6 +24,7 @@ Arguments:
 Options:
   --output-dir    Directory for generated output (default: ./output/<format>)
   --skip-copyright  Skip copyright verification
+  --datalab       Use Datalab API for high-quality PDF extraction (requires DATALAB_API_KEY)
 
 Examples:
   book-power process https://producingoss.com/en/producingoss.html --output command
@@ -37,6 +38,7 @@ interface ParsedArgs {
   output: OutputFormat;
   outputDir?: string;
   skipCopyright: boolean;
+  useDatalab: boolean;
 }
 
 function parseArgs(argv: string[]): ParsedArgs {
@@ -63,6 +65,7 @@ function parseArgs(argv: string[]): ParsedArgs {
   let output: OutputFormat | undefined;
   let outputDir: string | undefined;
   let skipCopyright = false;
+  let useDatalab = false;
 
   for (let i = 2; i < args.length; i++) {
     switch (args[i]) {
@@ -79,6 +82,9 @@ function parseArgs(argv: string[]): ParsedArgs {
       case '--skip-copyright':
         skipCopyright = true;
         break;
+      case '--datalab':
+        useDatalab = true;
+        break;
       default:
         console.error(`Unknown option: ${args[i]}`);
         process.exit(1);
@@ -90,7 +96,7 @@ function parseArgs(argv: string[]): ParsedArgs {
     process.exit(1);
   }
 
-  return { command, source, output, outputDir, skipCopyright };
+  return { command, source, output, outputDir, skipCopyright, useDatalab };
 }
 
 async function main(): Promise<void> {
@@ -108,7 +114,7 @@ async function main(): Promise<void> {
 
   // Step 2: Extract content
   log.step(2, 5, 'Extracting book content...');
-  const book = await extractBookContent(source);
+  const book = await extractBookContent(source, { useDatalab: args.useDatalab });
   log.info(`"${book.metadata.title}" by ${book.metadata.author}`);
   log.info(`${book.totalChapters} chapters, ${book.totalWordCount.toLocaleString()} words`);
 

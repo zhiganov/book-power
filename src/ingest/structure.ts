@@ -8,10 +8,15 @@ import { extractText } from './extract-text.js';
 import { fetchUrl } from './fetch.js';
 import { log } from '../logger.js';
 
+export interface ExtractionOptions {
+  /** Use Datalab API for high-quality PDF extraction */
+  useDatalab?: boolean;
+}
+
 /**
  * Normalize any source format into a unified BookContent structure.
  */
-export async function extractBookContent(source: BookSource): Promise<BookContent> {
+export async function extractBookContent(source: BookSource, options: ExtractionOptions = {}): Promise<BookContent> {
   let chapters: Chapter[];
   let title: string;
   let author: string;
@@ -30,7 +35,16 @@ export async function extractBookContent(source: BookSource): Promise<BookConten
       break;
     }
     case 'pdf': {
-      ({ chapters, title, author } = await extractKreuzberg(source.localPaths[0]));
+      if (options.useDatalab) {
+        const apiKey = process.env.DATALAB_API_KEY;
+        if (!apiKey) {
+          throw new Error('DATALAB_API_KEY environment variable is required for --datalab mode');
+        }
+        const { extractDatalab } = await import('./extract-datalab.js');
+        ({ chapters, title, author } = await extractDatalab(source.localPaths[0], apiKey));
+      } else {
+        ({ chapters, title, author } = await extractKreuzberg(source.localPaths[0]));
+      }
       break;
     }
     case 'text': {
