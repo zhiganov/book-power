@@ -3,7 +3,6 @@ import { join } from 'node:path';
 import type { BookSource, BookContent, Chapter } from '../types.js';
 import { extractHtml } from './extract-html.js';
 import { extractKreuzberg } from './extract-kreuzberg.js';
-import { extractPdf } from './extract-pdf.js';
 import { extractText } from './extract-text.js';
 import { fetchUrl } from './fetch.js';
 import { log } from '../logger.js';

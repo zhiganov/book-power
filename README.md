@@ -14,7 +14,7 @@ Methodology books are full of frameworks, workflows, and interview techniques �
 Book (URL / PDF / TXT) → Extract → Analyze → Generate
 ```
 
-1. **Ingest** — Extracts content from URLs, files, or directories (HTML, PDF, plain text)
+1. **Ingest** — Extracts content from URLs, files, or directories (HTML, PDF, plain text). For PDFs, supports both local `pdf-parse` extraction and [Datalab API](https://www.datalab.to/) pre-conversion to markdown (higher quality, handles complex layouts)
 2. **Analyze** — Uses Claude to extract principles, frameworks, expertise areas, and tone
 3. **Generate** — Produces one of three output formats:
    - **`mcp`** — MCP server with embedded book content and tools for search, reference, guided analysis
@@ -99,6 +99,7 @@ Upload any methodology book you own and generate custom session templates. The p
 
 ### Planned MCP servers
 
+- **Continuous Discovery Habits** — Teresa Torres's product discovery methodology (hand-crafted, HAR-387). Source markdown already converted via Datalab API.
 - **Producing OSS** — Rebuild audit-oss as MCP server with learnings from jtbd-knowledge
 - **Governable Spaces** — Nathan Schneider's book on governance, for gov/acc research collaboration with Metagov
 
