@@ -14,7 +14,7 @@ Methodology books are full of frameworks, workflows, and interview techniques �
 Book (URL / PDF / TXT) → Extract → Analyze → Generate
 ```
 
-1. **Ingest** — Extracts content from URLs, files, or directories (HTML, PDF, plain text). For PDFs, supports both local `pdf-parse` extraction and [Datalab API](https://www.datalab.to/) pre-conversion to markdown (higher quality, handles complex layouts)
+1. **Ingest** — Extracts content from URLs, files, or directories. Supports HTML, PDF, EPUB, DOCX, PPTX, and plain text. Uses [Kreuzberg](https://github.com/kreuzberg-dev/kreuzberg) (MIT, Rust core) for local extraction and [Datalab API](https://www.datalab.to/) for high-quality PDF extraction (auto-default when API key is available)
 2. **Analyze** — Uses Claude to extract principles, frameworks, expertise areas, and tone
 3. **Generate** — Produces one of three output formats:
    - **`mcp`** — MCP server with embedded book content and tools for search, reference, guided analysis
@@ -35,6 +35,7 @@ Claude Code slash command — no API key needed (Claude Code handles analysis).
 |---------|--------|--------|--------|
 | **[claude-audit-oss](https://github.com/zhiganov/claude-audit-oss)** | Slash command | [Producing Open Source Software](https://producingoss.com/) by Karl Fogel (CC BY-SA 4.0) | Published |
 | **jtbd-knowledge** | MCP server | Bob Moesta's "Demand-Side Sales 101" + Jim Kalbach's "The JTBD Playbook" | Private |
+| **facilitating-deliberation** | MCP server | "Facilitating Deliberation" by White, Hunter & Greaves ([free download](https://www.mosaiclab.com.au/the-big-book)) | In progress |
 
 ### jtbd-knowledge MCP server
 
@@ -60,7 +61,9 @@ book-power process <source> --output mcp|command|avatar
 
 # Examples
 book-power process https://producingoss.com/en/producingoss.html --output command
-book-power process ./my-book.pdf --output mcp
+book-power process ./my-book.pdf --output mcp          # uses Datalab if DATALAB_API_KEY set
+book-power process ./my-book.pdf --no-datalab --output mcp  # force Kreuzberg
+book-power process ./book.epub --output avatar          # EPUB supported via Kreuzberg
 book-power process ./book-chapters/ --output avatar
 ```
 
@@ -96,6 +99,18 @@ Authors and publishers could offer interactive companion tools alongside their b
 ### For facilitators and consultants
 
 Upload any methodology book you own and generate custom session templates. The platform provides transformation infrastructure, you supply your licensed content. IP responsibility stays with you (same model as YouTube/Dropbox).
+
+### facilitating-deliberation MCP server
+
+A practitioner toolkit for planning and running deliberative democracy processes. 12 tools across 3 groups:
+
+- **Reference (5):** `search_content`, `get_principle`, `get_step`, `get_activity`, `list_all`
+- **Design (4):** `get_macro_design_template`, `get_micro_design_template`, `get_readiness_assessment`, `get_checklist`
+- **Facilitation (3):** `suggest_activity`, `get_framework`, `suggest_next_step`
+
+**Content:** 20 principles (deliberation + facilitation), 7 core steps with sub-steps, ~25 activities, 4 decision frameworks, 5 checklists, design templates for macro/micro planning.
+
+**Audiences:** Facilitators using Claude to plan real deliberations + developers building AI deliberation agents.
 
 ### Planned MCP servers
 
