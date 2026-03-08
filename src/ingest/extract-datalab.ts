@@ -5,7 +5,7 @@ import { writeFileSync, unlinkSync } from 'node:fs';
 import { join } from 'node:path';
 import { tmpdir } from 'node:os';
 
-const DATALAB_API_URL = 'https://www.datalab.to/api/v1/convert';
+const DATALAB_API_URL = 'https://www.datalab.to/api/v1/marker';
 
 /**
  * Extract chapters from a PDF using the Datalab API (hosted Marker).
@@ -23,7 +23,7 @@ export async function extractDatalab(
   log.info(`Sending to Datalab API: ${filename}`);
 
   const formData = new FormData();
-  formData.append('file', new Blob([buffer]), filename);
+  formData.append('file', new Blob([buffer], { type: 'application/pdf' }), filename);
   formData.append('output_format', 'markdown');
 
   const response = await fetch(DATALAB_API_URL, {

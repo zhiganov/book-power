@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 
+import 'dotenv/config';
 import { resolve } from 'node:path';
 import { log } from './logger.js';
 import { detectSource } from './ingest/detect.js';
@@ -24,7 +25,7 @@ Arguments:
 Options:
   --output-dir    Directory for generated output (default: ./output/<format>)
   --skip-copyright  Skip copyright verification
-  --datalab       Use Datalab API for high-quality PDF extraction (requires DATALAB_API_KEY)
+  --no-datalab    Force Kreuzberg for PDF extraction (skips Datalab even if API key is set)
 
 Examples:
   book-power process https://producingoss.com/en/producingoss.html --output command
@@ -38,7 +39,7 @@ interface ParsedArgs {
   output: OutputFormat;
   outputDir?: string;
   skipCopyright: boolean;
-  useDatalab: boolean;
+  useDatalab?: boolean;
 }
 
 function parseArgs(argv: string[]): ParsedArgs {
@@ -65,7 +66,7 @@ function parseArgs(argv: string[]): ParsedArgs {
   let output: OutputFormat | undefined;
   let outputDir: string | undefined;
   let skipCopyright = false;
-  let useDatalab = false;
+  let useDatalab: boolean | undefined;
 
   for (let i = 2; i < args.length; i++) {
     switch (args[i]) {
@@ -82,8 +83,8 @@ function parseArgs(argv: string[]): ParsedArgs {
       case '--skip-copyright':
         skipCopyright = true;
         break;
-      case '--datalab':
-        useDatalab = true;
+      case '--no-datalab':
+        useDatalab = false;
         break;
       default:
         console.error(`Unknown option: ${args[i]}`);

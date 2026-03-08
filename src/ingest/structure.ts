@@ -8,7 +8,9 @@ import { fetchUrl } from './fetch.js';
 import { log } from '../logger.js';
 
 export interface ExtractionOptions {
-  /** Use Datalab API for high-quality PDF extraction */
+  /** Control Datalab API usage for PDF extraction.
+   *  undefined = auto (use Datalab if API key is available)
+   *  false = force Kreuzberg (--no-datalab) */
   useDatalab?: boolean;
 }
 
@@ -34,14 +36,15 @@ export async function extractBookContent(source: BookSource, options: Extraction
       break;
     }
     case 'pdf': {
-      if (options.useDatalab) {
-        const apiKey = process.env.DATALAB_API_KEY;
-        if (!apiKey) {
-          throw new Error('DATALAB_API_KEY environment variable is required for --datalab mode');
-        }
+      const apiKey = process.env.DATALAB_API_KEY;
+      if (apiKey && options.useDatalab !== false) {
+        // Datalab is default for PDFs when API key is available (higher quality)
         const { extractDatalab } = await import('./extract-datalab.js');
         ({ chapters, title, author } = await extractDatalab(source.localPaths[0], apiKey));
       } else {
+        if (options.useDatalab) {
+          log.warn('DATALAB_API_KEY not set — falling back to Kreuzberg for PDF extraction');
+        }
         ({ chapters, title, author } = await extractKreuzberg(source.localPaths[0]));
       }
       break;
