@@ -53,6 +53,18 @@ The first hand-crafted MCP server — goes beyond the generic generator with pur
 
 **Architecture:** Hybrid approach — structured reference data + analysis templates that Claude fills in from real data (transcripts, surveys). No LLM calls in the server. The server provides methodology scaffolding; Claude in conversation does the analytical work.
 
+### facilitating-deliberation MCP server
+
+A practitioner toolkit for planning and running deliberative democracy processes. 12 tools across 3 groups:
+
+- **Reference (5):** `search_content`, `get_principle`, `get_step`, `get_activity`, `list_all`
+- **Design (4):** `get_macro_design_template`, `get_micro_design_template`, `get_readiness_assessment`, `get_checklist`
+- **Facilitation (3):** `suggest_activity`, `get_framework`, `suggest_next_step`
+
+**Content:** 20 principles (deliberation + facilitation), 7 core steps with sub-steps, ~25 activities, 4 decision frameworks, 5 checklists, design templates for macro/micro planning.
+
+**Audiences:** Facilitators using Claude to plan real deliberations + developers building AI deliberation agents.
+
 ## Usage
 
 ```bash
@@ -85,18 +97,6 @@ curl -fsSL https://raw.githubusercontent.com/zhiganov/book-power/main/slash-comm
 ```powershell
 irm https://raw.githubusercontent.com/zhiganov/book-power/main/slash-command/install.ps1 | iex
 ```
-
-### facilitating-deliberation MCP server
-
-A practitioner toolkit for planning and running deliberative democracy processes. 12 tools across 3 groups:
-
-- **Reference (5):** `search_content`, `get_principle`, `get_step`, `get_activity`, `list_all`
-- **Design (4):** `get_macro_design_template`, `get_micro_design_template`, `get_readiness_assessment`, `get_checklist`
-- **Facilitation (3):** `suggest_activity`, `get_framework`, `suggest_next_step`
-
-**Content:** 20 principles (deliberation + facilitation), 7 core steps with sub-steps, ~25 activities, 4 decision frameworks, 5 checklists, design templates for macro/micro planning.
-
-**Audiences:** Facilitators using Claude to plan real deliberations + developers building AI deliberation agents.
 
 ## Vision
 
