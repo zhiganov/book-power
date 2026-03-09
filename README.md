@@ -35,7 +35,7 @@ Claude Code slash command — no API key needed (Claude Code handles analysis).
 |---------|--------|--------|--------|
 | **[claude-audit-oss](https://github.com/zhiganov/claude-audit-oss)** | Slash command | [Producing Open Source Software](https://producingoss.com/) by Karl Fogel (CC BY-SA 4.0) | Published |
 | **jtbd-knowledge** | MCP server | Bob Moesta's "Demand-Side Sales 101" + Jim Kalbach's "The JTBD Playbook" | Private |
-| **facilitating-deliberation** | MCP server | "Facilitating Deliberation" by White, Hunter & Greaves ([free download](https://www.mosaiclab.com.au/the-big-book)) | In progress |
+| **facilitating-deliberation** | MCP server | "Facilitating Deliberation" by White, Hunter & Greaves ([free download](https://www.mosaiclab.com.au/the-big-book)) | Private |
 
 ### jtbd-knowledge MCP server
 
@@ -86,6 +86,18 @@ curl -fsSL https://raw.githubusercontent.com/zhiganov/book-power/main/slash-comm
 irm https://raw.githubusercontent.com/zhiganov/book-power/main/slash-command/install.ps1 | iex
 ```
 
+### facilitating-deliberation MCP server
+
+A practitioner toolkit for planning and running deliberative democracy processes. 12 tools across 3 groups:
+
+- **Reference (5):** `search_content`, `get_principle`, `get_step`, `get_activity`, `list_all`
+- **Design (4):** `get_macro_design_template`, `get_micro_design_template`, `get_readiness_assessment`, `get_checklist`
+- **Facilitation (3):** `suggest_activity`, `get_framework`, `suggest_next_step`
+
+**Content:** 20 principles (deliberation + facilitation), 7 core steps with sub-steps, ~25 activities, 4 decision frameworks, 5 checklists, design templates for macro/micro planning.
+
+**Audiences:** Facilitators using Claude to plan real deliberations + developers building AI deliberation agents.
+
 ## Vision
 
 ### Book → facilitated sessions
@@ -99,18 +111,6 @@ Authors and publishers could offer interactive companion tools alongside their b
 ### For facilitators and consultants
 
 Upload any methodology book you own and generate custom session templates. The platform provides transformation infrastructure, you supply your licensed content. IP responsibility stays with you (same model as YouTube/Dropbox).
-
-### facilitating-deliberation MCP server
-
-A practitioner toolkit for planning and running deliberative democracy processes. 12 tools across 3 groups:
-
-- **Reference (5):** `search_content`, `get_principle`, `get_step`, `get_activity`, `list_all`
-- **Design (4):** `get_macro_design_template`, `get_micro_design_template`, `get_readiness_assessment`, `get_checklist`
-- **Facilitation (3):** `suggest_activity`, `get_framework`, `suggest_next_step`
-
-**Content:** 20 principles (deliberation + facilitation), 7 core steps with sub-steps, ~25 activities, 4 decision frameworks, 5 checklists, design templates for macro/micro planning.
-
-**Audiences:** Facilitators using Claude to plan real deliberations + developers building AI deliberation agents.
 
 ### Planned MCP servers
 
