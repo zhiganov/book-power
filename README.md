@@ -112,6 +112,17 @@ Authors and publishers could offer interactive companion tools alongside their b
 
 Upload any methodology book you own and generate custom session templates. The platform provides transformation infrastructure, you supply your licensed content. IP responsibility stays with you (same model as YouTube/Dropbox).
 
+### Deploying MCP servers
+
+Generated or hand-crafted MCP servers can be deployed to Railway for remote access. Users connect via Claude Desktop config — no Node.js, git, or terminal required.
+
+The pattern: add Express + StreamableHTTPServerTransport (~40 lines in `index.ts`), a `railway.json`, and push. Railway auto-deploys on every push.
+
+- **Open source books** (CC-licensed, public domain): no auth needed, public URL — anyone can connect
+- **Copyrighted books**: add Bearer token auth, share URL + key privately
+
+Reference implementation: [jtbd-knowledge-mcp](https://github.com/zhiganov/jtbd-knowledge-mcp) (private, copyrighted, Bearer auth).
+
 ### Planned MCP servers
 
 - **Continuous Discovery Habits** — Teresa Torres's product discovery methodology (hand-crafted, HAR-387). Source markdown already converted via Datalab API.
