@@ -1,5 +1,11 @@
 # Process Notes — book-power
 
+## 2026-03-13 — Plurality book downloaded, MCP server planned
+- **Done:** Downloaded all 36 chapters of Glen Weyl & Audrey Tang's "Plurality: The Future of Collaborative Technology and Democracy" from `pluralitybook/plurality` GitHub repo. Combined into `books/plurality-full.md` (1M chars). CC0 license — can publish MCP server publicly.
+- **Decisions:** Hand-crafted MCP server (not generic pipeline). Will be the first public book-power MCP server (no auth needed). Directly relevant to Harmonica, gov/acc, Open Civics.
+- **State:** Raw chapters at `books/plurality-raw/`, combined at `books/plurality-full.md`. No analysis or design started yet.
+- **Next:** Brainstorm MCP server design — analyze content, identify key concepts/frameworks, design purpose-built tools. Deploy to Railway (public, no auth). Book structure: philosophy of plurality (Part 3), rights/freedoms as tech (Part 4), collaborative tech for democracy (Part 5), real-world applications (Part 6), policy (Part 7).
+
 ## 2026-03-13 — jtbd-knowledge remote deployment
 - **Done:** Added HTTP transport (StreamableHTTPServerTransport, stateless, Express, Bearer auth). Deployed to Railway. Updated README for remote-first setup (paste JSON config, done).
 - **Decisions:** Dual transport (HTTP when PORT set, stdio otherwise). Stateless mode — no session management needed. Nixpacks builder. API key auth.
