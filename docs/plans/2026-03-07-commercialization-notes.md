@@ -35,13 +35,30 @@
 - Natural network effect: more books processed → better generator → more books
 - Clean IP separation means no legal risk for the platform
 
+## Publisher lead: Rosenfeld Media (via Drea, 2026-03-11)
+
+Drea knows **Lou Rosenfeld** (Rosenfeld Media) personally from grad school at Michigan. She offered to make the introduction.
+
+**Key insight from Drea:** Most Rosenfeld authors write books as marketing for their consulting practice. MCP servers are a natural complement — "buy the book, get the tools" isn't threatening to authors, it amplifies their consulting funnel.
+
+**What to prepare:**
+1. Clear ask — what advice/feedback do we want from a publisher?
+2. Links to book-power + jtbd-knowledge (private repo, invite Lou if needed)
+3. The pitch — book → MCP server is inevitable for publishing; we have a working pipeline
+
+**Drea's assessment:** "There's zero chance he's not thinking about this" (AI + books). She'll reach out once we have the materials ready.
+
+This is the first concrete publisher connection. Previous thinking (Nathan Schneider, Governable Spaces) was author-level; this is publisher-level — much bigger leverage.
+
 ## Open questions
 
 - Who pays — the publisher, the consultant, or the end user?
 - Is this a Harmonica feature or a standalone product?
 - What's the minimum viable offering for early adopters?
-- How to reach publishers? (Nathan Schneider / Governable Spaces could be the pilot)
+- ~~How to reach publishers?~~ → Lou Rosenfeld via Drea (see above)
 
-## Next step
+## Next steps
 
-Run a Harmonica session with people who have open-core commercialization experience (task 12).
+- Prepare Lou Rosenfeld intro package (task 14)
+- Create private jtbd-knowledge repo for Drea to assess (task 13) — domain expert validation
+- Run a Harmonica session with people who have open-core commercialization experience (task 12)
