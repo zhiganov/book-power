@@ -12,19 +12,20 @@ This pattern should be easy to replicate for other book-power MCP servers (facil
 
 ```
 Claude Desktop (Drea)
-    | HTTP POST (with Bearer token)
+    | HTTP (with Bearer token)
     v
 Railway (jtbd-knowledge)
     |
 Express server (port from $PORT env var)
     |-- Auth middleware (checks API_KEY header)
-    |-- POST /mcp -- StreamableHTTPServerTransport (tool calls)
-    |-- GET /mcp -- SSE stream (session resumption)
-    |-- DELETE /mcp -- session cleanup
+    |-- ALL /mcp -- StreamableHTTPServerTransport.handleRequest()
+    |              (internally routes POST/GET/DELETE)
     |-- GET /health -- Railway health check
     v
 McpServer (same 13 tools, unchanged)
 ```
+
+Transport runs in **stateless mode** (`sessionIdGenerator: undefined`) — all tools are pure request/response, no conversation state in the server. Railway restarts have zero impact.
 
 ## Auth
 
@@ -62,15 +63,14 @@ Replace the `main()` function. The server creation and all 13 tool registrations
 - Import `StreamableHTTPServerTransport` from `@modelcontextprotocol/sdk/server/streamableHttp.js`
 - Import `express`
 - Create Express app with:
-  - Auth middleware on `/mcp` routes (checks `API_KEY` env var)
-  - `POST /mcp` — creates `StreamableHTTPServerTransport`, connects to McpServer
-  - `GET /mcp` — SSE endpoint for session event streams
-  - `DELETE /mcp` — session cleanup
+  - Auth middleware on `/mcp` routes (checks `API_KEY` env var against `Authorization: Bearer` header)
+  - `app.all('/mcp', ...)` — single route, delegates to `transport.handleRequest(req, res, req.body)` (SDK handles POST/GET/DELETE internally)
   - `GET /health` — returns 200 (Railway health check)
+- Stateless transport: `new StreamableHTTPServerTransport({ sessionIdGenerator: undefined })`
 - Listen on `process.env.PORT || 3000`
-- Session management: Map of sessionId → transport, cleaned up on DELETE
+- **Dual transport**: when `PORT` env var is set, use HTTP (Railway). Otherwise, fall back to stdio (local dev).
 
-Remove `StdioServerTransport` import.
+Keep `StdioServerTransport` import for local dev fallback.
 
 ### `package.json`
 
@@ -82,8 +82,10 @@ Add dependencies:
 
 ```json
 {
+  "$schema": "https://railway.com/railway.schema.json",
   "build": {
-    "builder": "NIXPACKS"
+    "builder": "NIXPACKS",
+    "buildCommand": "npm run build"
   },
   "deploy": {
     "startCommand": "node dist/index.js",
@@ -123,6 +125,5 @@ The Express + auth + StreamableHTTPServerTransport wrapper is ~40 lines. Other b
 
 ## Risks
 
-- **Claude Desktop Streamable HTTP support**: Verify Claude Desktop supports `"type": "streamable-http"` in config. If not, fall back to SSE transport (`SSEServerTransport`).
+- **Claude Desktop Streamable HTTP support**: Confirmed supported (added June 2025). `"type": "streamable-http"` works in `claude_desktop_config.json`.
 - **Railway cold starts**: Free tier may have cold starts. If latency is a problem, upgrade to a paid plan or add a keep-alive ping.
-- **Session state**: StreamableHTTPServerTransport is stateful (session map). Railway restarts will lose sessions — acceptable for this use case (tool calls are stateless, no conversation state in the server).
