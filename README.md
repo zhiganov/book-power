@@ -128,6 +128,7 @@ Reference implementation: [jtbd-knowledge-mcp](https://github.com/zhiganov/jtbd-
 - **Continuous Discovery Habits** — Teresa Torres's product discovery methodology (hand-crafted, HAR-387). Source markdown already converted via Datalab API.
 - **Producing OSS** — Rebuild audit-oss as MCP server with learnings from jtbd-knowledge
 - **The Nature of Order** — Christopher Alexander's 15 Properties of Living Structure as an MCP server. Would power the [claude-living-structure](https://github.com/zhiganov/claude-living-structure) skill with structured access to Alexander's framework, examples, and transformations across domains (software, UI, governance, communities)
+- **Plurality** — Glen Weyl & Audrey Tang's [⿻數位 Plurality](https://github.com/pluralitybook/plurality) on collaborative technology and democracy. CC0 licensed (public domain) — no auth needed. Directly relevant to Harmonica's democratic governance mission
 - **Governable Spaces** — Nathan Schneider's book on governance, for gov/acc research collaboration with Metagov
 
 ## License
